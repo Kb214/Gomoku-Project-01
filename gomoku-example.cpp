@@ -10,20 +10,27 @@ const char PLAYER1 = 'X';
 const char PLAYER2 = 'O';
 
 void printBoard(const std::vector<std::vector<char>>& board) {
-    std::cout << "   ";
+    std::cout << "    ";
     for (int i = 0; i < BOARD_SIZE; ++i) {
         std::cout << (i < 10 ? " " : "") << i << " ";
     }
-
-    std::cout << std::endl;
-    
+    std::cout << "\n   +";
     for (int i = 0; i < BOARD_SIZE; ++i) {
-        std::cout << (i < 10 ? " " : "") << i << " ";
+        std::cout << "---";
+    }
+    std::cout << "+\n";
+    for (int i = 0; i < BOARD_SIZE; ++i) {
+        std::cout << (i < 10 ? " " : "") << i << " |";
         for (int j = 0; j < BOARD_SIZE; ++j) {
             std::cout << " " << board.at(i).at(j) << " ";
         }
-        std::cout << std::endl;
+        std::cout << "|\n";
     }
+    std::cout << "   +";
+    for (int i = 0; i < BOARD_SIZE; ++i) {
+        std::cout << "---";
+    }
+    std::cout << "+\n";
 }
 
 bool isWin(const std::vector<std::vector<char>>& board, int row, int col, char player) {

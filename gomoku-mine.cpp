@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <limits>
 
 enum class Status {ONGOING, WHITE_WIN, BLACK_WIN, DRAW};
 enum class Stones {BLACK, WHITE, EMPTY};
@@ -50,7 +51,6 @@ void displayBoard(const std::vector<std::vector<Stones>>& board){
 
 }
 
-
 int getCount(const std::vector<std::vector<Stones>>& board){
     int count = 0;
     for(const auto& row : board){
@@ -64,7 +64,6 @@ int getCount(const std::vector<std::vector<Stones>>& board){
 Stones getPlayerStone(const std::vector<std::vector<Stones>>& board){
     return (getCount(board) % 2 == 0) ? Stones::BLACK : Stones::WHITE;
 }
-
 
 Status gameStatus(const std::vector<std::vector<Stones>>& board){
     int rows = static_cast<int>(board.size());
@@ -102,40 +101,174 @@ void play(std::vector<std::vector<Stones>>& board, int row, int col){
     }
 }
 
+bool validateRow(int& row, int size){
+
+    if(std::cin.fail()){
+        std::cout << "Invalid input. Please enter numeric values only.\n";
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        return false;
+
+    }else if(row < 1){
+
+       std::cout << "Row must be between 1 and " << size << ". Please try again.\n";
+       return false;
+
+    }else if (row > size){
+
+        std::cout << "Row must be between 1 and " << size << ". Please try again.\n";
+        return false;
+
+    }else{
+        return true;
+    }
+}
+
+bool validateCol(int& col, int size){
+    if(col < 1){
+
+       std::cout << "Column must be between 1 and " << size << ". Please try again.\n";
+       return false;
+
+    }else if (col > size){
+
+        std::cout << "Column must be between 1 and " << size << ". Please try again.\n";
+        return false;
+
+    }else if(std::cin.fail()){
+        std::cout << "Invalid input. Please enter numeric values only.\n";
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        return false;
+
+    }else{
+        return true;
+    }
+}
+
+
+
 int main(){
 
     std::cout << "------Welcome to Gomoku!------\n";
+
     std::cout << "========Here are the rules========\n\n";
     std::cout << "1. The game is played on a 13x13 grid.\n";
     std::cout << "2. Players take turns placing their stones (Black goes first).\n";
     std::cout << "3. To place a stone, enter the row and column numbers.\n";
-    std::cout << "4. Here's the catch: You can only win by forming a straight line horizontally.\n";
+    std::cout << "4. Here's the catch: You can only win by forming a straight line horizontally. You have fewer paths of victory you can take, so choose wisely.\n";
+    std::cout << "\n========Let's Begin!========\n";
 
     auto board = makeBoard(13, 13);
 
-    while(gameStatus(board) == Status::ONGOING){
+    while(true){
+        std::cout << "\n========Let's Begin!========\n";
+        auto board = makeBoard(13, 13);
+
+        while(gameStatus(board) == Status::ONGOING){
         displayBoard(board);
         std::cout << ((getPlayerStone(board) == Stones::BLACK) ? "Black's turn.\n" : "White's turn.\n");
         std::cout << "------Enter your move (row and column)------\n ";
         int row;
         int col;
+
         std::cout << "Row: ";
         std::cin >> row;
+        if(!validateRow(row, 13)){
+
+            continue;
+        }
+
         std::cout << "Column: ";
         std::cin >> col;
+        if(!validateCol(col, 13)){
+
+            continue;
+        }
 
         play(board, row - 1, col - 1);
     }
 
-    displayBoard(board);
-    if (gameStatus(board) == Status::BLACK_WIN) {
-        std::cout << "Black wins!\n";
-    } else if (gameStatus(board) == Status::WHITE_WIN) {
-        std::cout << "White wins!\n";
-    } else if (gameStatus(board) == Status::DRAW) {
-        std::cout << "It's a draw!\n";
-    }
+        displayBoard(board);
+        
+        if (gameStatus(board) == Status::BLACK_WIN) {
+            std::cout << "Black wins!\n";
 
+        }else if (gameStatus(board) == Status::WHITE_WIN) {
+
+            std::cout << "White wins!\n";
+
+        } else if (gameStatus(board) == Status::DRAW) {
+
+            std::cout << "It's a draw!\n";
+
+        }
+        
+        std::cout << "Game over.";
+        std::cout << "Do you want to play again? [1] Yes [2] No: ";
+
+        int choice;
+        std::cin >> choice;
+
+    
+
+        if (choice != 1) {
+            std::cout << "Thank you for playing Gomoku! Goodbye!\n";
+            return false;
+        }
+}
+
+    // while(gameStatus(board) == Status::ONGOING){
+    //     displayBoard(board);
+    //     std::cout << ((getPlayerStone(board) == Stones::BLACK) ? "Black's turn.\n" : "White's turn.\n");
+    //     std::cout << "------Enter your move (row and column)------\n ";
+    //     int row;
+    //     int col;
+
+    //     std::cout << "Row: ";
+    //     std::cin >> row;
+    //     if(!validateRow(row, 13)){
+
+    //         continue;
+    //     }
+
+    //     std::cout << "Column: ";
+    //     std::cin >> col;
+    //     if(!validateCol(col, 13)){
+
+    //         continue;
+    //     }
+
+    //     play(board, row - 1, col - 1);
+    // }
+
+    // displayBoard(board);
+
+    
+    // if (gameStatus(board) == Status::BLACK_WIN) {
+
+    //     std::cout << "Black wins!\n";
+
+    // } else if (gameStatus(board) == Status::WHITE_WIN) {
+
+    //     std::cout << "White wins!\n";
+
+    // } else if (gameStatus(board) == Status::DRAW) {
+
+    //     std::cout << "It's a draw!\n";
+
+    // }
+    
+    // std::cout << "Game over.";
+    // std::cout << "Do you want to play again? [1] Yes [2] No: ";
+
+    // int choice;
+    // std::cin >> choice;
+
+    // if (choice != 1) {
+    //     std::cout << "Thank you for playing Gomoku! Goodbye!\n";
+    //     return false;
+    // }
     return 0;
 
 }
