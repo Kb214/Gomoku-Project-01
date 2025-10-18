@@ -157,7 +157,6 @@ int main(){
     std::cout << "2. Players take turns placing their stones (Black goes first).\n";
     std::cout << "3. To place a stone, enter the row and column numbers.\n";
     std::cout << "4. Here's the catch: You can only win by forming a straight line horizontally. You have fewer paths of victory you can take, so choose wisely.\n";
-    std::cout << "\n========Let's Begin!========\n";
 
     auto board = makeBoard(13, 13);
 
@@ -218,57 +217,5 @@ int main(){
         }
 }
 
-    // while(gameStatus(board) == Status::ONGOING){
-    //     displayBoard(board);
-    //     std::cout << ((getPlayerStone(board) == Stones::BLACK) ? "Black's turn.\n" : "White's turn.\n");
-    //     std::cout << "------Enter your move (row and column)------\n ";
-    //     int row;
-    //     int col;
-
-    //     std::cout << "Row: ";
-    //     std::cin >> row;
-    //     if(!validateRow(row, 13)){
-
-    //         continue;
-    //     }
-
-    //     std::cout << "Column: ";
-    //     std::cin >> col;
-    //     if(!validateCol(col, 13)){
-
-    //         continue;
-    //     }
-
-    //     play(board, row - 1, col - 1);
-    // }
-
-    // displayBoard(board);
-
-    
-    // if (gameStatus(board) == Status::BLACK_WIN) {
-
-    //     std::cout << "Black wins!\n";
-
-    // } else if (gameStatus(board) == Status::WHITE_WIN) {
-
-    //     std::cout << "White wins!\n";
-
-    // } else if (gameStatus(board) == Status::DRAW) {
-
-    //     std::cout << "It's a draw!\n";
-
-    // }
-    
-    // std::cout << "Game over.";
-    // std::cout << "Do you want to play again? [1] Yes [2] No: ";
-
-    // int choice;
-    // std::cin >> choice;
-
-    // if (choice != 1) {
-    //     std::cout << "Thank you for playing Gomoku! Goodbye!\n";
-    //     return false;
-    // }
-    return 0;
 
 }
